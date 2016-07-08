@@ -1,0 +1,125 @@
+<!--Commentary Area of Safety
+Random Restaurant Selector by Zip Code
+-->
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville|Playfair+Display:400,700' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+
+<center>
+<h1 id="pageHeader">NoshFinder</h1>
+  <!--I love the name! ~b-don -->
+<h2 id="description">Where should you go for dinner tonight?</h2>
+
+
+<div class="rectangle" id="restaurantName">Loading...</div>
+<div id="nearby"></div>
+
+<div class="rectangle" id="googleMapsLink">Google Maps Link</div>
+
+<br>
+
+<form id="zipcodeForm">
+<input type="text"; placeholder="Enter your zipcode!" id="zipcode"/>
+</form>
+
+<button id="randomizer">Randomize!</button>
+
+</center>
+  <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+  <script src="./script.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="./oauth.js"></script>
+  <script type="text/javascript" src="./oauth2.js"></script>
+  <script type="text/javascript">
+
+
+
+    var returnedData , number, businessName, yelpUrl;
+    function randomize() {
+      // near = document.getElementById("zipcode").value;
+      number = Math.floor(Math.random() * 20);
+      businessName = (returnedData.businesses[number].name);
+      $("#restaurantName").html(businessName);
+      yelpUrl = (returnedData.businesses[number].url);
+      $("#googleMapsLink").html('<a href="' + yelpUrl + '">Link</a>');
+    }
+
+    $("#randomizer").click(randomize);
+
+    function cb(data) {
+      console.log(data);
+      returnedData = data;
+      randomize();
+    }
+
+    var auth = {
+      //
+      // Update with your auth tokens.
+      //
+      consumerKey : "CNhg9vnuixW2ik4OgwE4Xg",
+      consumerSecret : "jGNUNCzOoVmTusUwUaQGOvVSp1Q",
+      accessToken : "fc7woXH2NYKsC4kBmu2ugjyQfaiDUkoB",
+      // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
+      // You wouldn't actually want to expose your access token secret like this in a real application.
+      accessTokenSecret : "yK_sIke97qdHSbRG4e-_Fi1JV3Y",
+      serviceProvider : {
+        signatureMethod : "HMAC-SHA1"
+      }
+    };
+
+    var terms = 'salad';
+    var near = '94608';
+
+
+    var accessor = {
+      consumerSecret : auth.consumerSecret,
+      tokenSecret : auth.accessTokenSecret
+    };
+
+    var parameters = [];
+    parameters.push(['term', terms]);
+    parameters.push(['location', near]);
+    parameters.push(['limit', 20]);
+    parameters.push(['callback', 'cb']);
+    parameters.push(['oauth_consumer_key', auth.consumerKey]);
+    parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
+    parameters.push(['oauth_token', auth.accessToken]);
+    parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
+
+    var message = {
+      'action' : 'https://api.yelp.com/v2/search',
+      'method' : 'GET',
+      'parameters' : parameters
+    };
+
+    OAuth.setTimestampAndNonce(message);
+    OAuth.SignatureMethod.sign(message, accessor);
+
+    var parameterMap = OAuth.getParameterMap(message.parameters);
+
+    $.ajax({
+      'url' : message.action,
+      'data' : parameterMap,
+      'dataType' : 'jsonp',
+      'jsonpCallback' : 'cb',
+      'cache': true
+    })
+    .done(function(data, textStatus, jqXHR) {
+      // console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
+
+    }
+  )
+  .fail(function(jqXHR, textStatus, errorThrown) {
+    console.log('error[' + errorThrown + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
+    }
+  );
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!--Commentary Area of Safety
+Random Restaurant Selector by Zip Code
+-->
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville|Playfair+Display:400,700' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+
+<center>
+<div id="everything">
+
+<h1 id="pageHeader">NoshFinder</h1>
+  <!--I love the name! ~b-don || me too!!! - anna-->
+
+<h2 id="description">Where should you go for dinner tonight?</h2>
+	<!-- All of the styling is temporary, and color schemes/names/fonts/etc. can be changed later. I was just trying to make it a little more interesting (I'm not great with colour yet). -k. -->
+
+<form id="zipcodeForm" onsubmit="return false;">
+
+<input type="text"; placeholder="Enter your zipcode!" id="zipcode"/>
+<button id="submitButton"> </button>
+</form>
+
+<div class="name" id="restaurantName">Loading...</div>
+
+
+
+<div class="rectangle" id="restaurantCategories"></div>
+<div class="rectangle" id="restaurantAddress"></div>
+
+
+
+<button id="yelp">This sounds good!</button>
+<button id="randomizer">Find me another!</button>
+
+
+</div>
+</center>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+  <script src="./script.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript" src="./oauth.js"></script>
+  <script type="text/javascript" src="./oauth2.js"></script>
+  
+
+</body>
+</html>
